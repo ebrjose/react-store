@@ -3,11 +3,11 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 module.exports = {
-  mode: 'development',
   entry: path.resolve(__dirname, 'src/index.js'),
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js',
+    publicPath: '/',
   },
   resolve: {
     extensions: ['.js', '.jsx'],
@@ -30,11 +30,10 @@ module.exports = {
         ],
       },
       {
-        test: /\.(s*)css$/,
+        test: /\.s[ac]ss|css$/,
         use: [
-          {
-            loader: MiniCssExtractPlugin.loader,
-          },
+          'style-loader',
+          // { loader: MiniCssExtractPlugin.loader },
           'css-loader',
           'sass-loader',
         ],
@@ -50,10 +49,12 @@ module.exports = {
       filename: 'assets/[name].css',
     }),
   ],
+  devtool: 'source-map',
   devServer: {
     contentBase: path.join(__dirname, 'dist'),
     compress: true,
     port: 3005,
-    open: true,
+    open: false,
+    historyApiFallback: true,
   },
 }
